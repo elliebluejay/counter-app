@@ -87,12 +87,12 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
         color: var(--ddd-theme-default-original87Pink);
       }
 
-      /* .counter.threshold-18 {
-        color: var(--ddd-theme-default-creekTeal);
+      .counter.threshold-18 {
+        color: var(--ddd-theme-default-athertonViolet);
       }
       .counter.threshold-21 {
         color: var(--ddd-theme-default-creekTeal);
-      } */
+      } 
 
       .buttons {
         display: flex;
