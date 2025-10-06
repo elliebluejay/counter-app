@@ -24,6 +24,7 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
     this.counter = 0;
     this.min = -10;
     this.max = 25;
+    this.confettiTrigger = 21;
 
     this.t = this.t || {};
     this.t = {
@@ -49,6 +50,7 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
       counter: { type: Number},
       min: { type: Number},
       max: { type: Number},
+      confettiTrigger: { type: Number, attribute: 'confetti-trigger' },
     };
   }
 
@@ -58,8 +60,8 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
     css`
       :host {
         display: block;
-        color: var(--ddd-theme-default-linkLight);
-        background-color: var(--ddd-theme-default-link80);
+        color: var(--ddd-theme-default-link);
+        background-color: var(--ddd-theme-default-linkLight);
         font-family: var(--ddd-font-primary);
       }
       .wrapper {
@@ -82,15 +84,15 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
       }
 
       .counter.min, .counter.max {
-        color: var(--ddd-theme-default-alertImmediate);
+        color: var(--ddd-theme-default-original87Pink);
       }
 
-      .counter.threshold-18 {
-        color: var(--ddd-theme-default-wonderPurple);
+      /* .counter.threshold-18 {
+        color: var(--ddd-theme-default-creekTeal);
       }
       .counter.threshold-21 {
-        color: var(--ddd-theme-default-forestGoblin);
-      }
+        color: var(--ddd-theme-default-creekTeal);
+      } */
 
       .buttons {
         display: flex;
@@ -100,23 +102,25 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
 
       button {
           padding: var(--ddd-spacing-2) var(--ddd-spacing-4);
-          font-size: var(--ddd-font-size-xl);
+          font-size: var(--ddd-font-size-s);
           border: var(--ddd-border-xs);
           border-radius: var(--ddd-radius-sm);
           cursor: pointer;
-          background: var(--ddd-theme-default-skyBlue);
-          color: white;
+          background: var(--ddd-theme-default-creekTeal);
+          color: var(--ddd-theme-default-white); 
           transition: background-color 0.3s ease;
-        }
+        } 
       button:hover:not(:disabled),
         button:focus:not(:disabled) {
-          background: var(--ddd-theme-default-dragonfruit);
+          background: var(--ddd-theme-default-creekTeal);
           box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-          outline: border;
+          outline: none;
         }
 
         button:disabled {
-          opacity: 0.7;
+          background-color: var(--ddd-theme-default-disabled);
+          color: var(--ddd-theme-default-white);
+          opacity: 0.2;
           cursor: not-allowed;
         }
       `,  
@@ -178,11 +182,14 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
     }
 
     if (changedProperties.has('counter')) {
-      if (this.counter === 21) {
+      console.log(`${this.counter}, ${this.confettiTrigger}`);
+      if (this.counter === this.confettiTrigger) {
         this.makeItRain();
       }
     }
   }
+
+
 
   makeItRain() {
     import("@haxtheweb/multiple-choice/lib/confetti-container.js").then(() => {
